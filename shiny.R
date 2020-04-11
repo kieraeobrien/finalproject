@@ -18,7 +18,7 @@ rsconnect::setAccountInfo(name='kieraobrien',
 
 # reading in Stata file of CCES 2010 data
 
-cces_2010 <- read_dta("/Users/kieraobrien/MS6/cces_2010.dta")
+cces_2010 <- read_dta("/Users/kieraobrien/finalproject/cces_2010.dta")
 
 cces_2010 <- as.data.frame(cces_2010)
 
@@ -26,7 +26,7 @@ View(cces_2010)
 
 # reading in Stata file of CCES 2018 data
 
-cces_2018 <- read_dta("/Users/kieraobrien/MS6/cces_2018.dta")
+cces_2018 <- read_dta("/Users/kieraobrien/finalproject/cces_2018.dta")
 
 cces_2018 <- as.data.frame(cces_2018)
 
