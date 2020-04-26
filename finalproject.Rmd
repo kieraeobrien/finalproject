@@ -41,7 +41,7 @@ View(cces2018)
 
 figure1 <- ggplot(cces2018, 
                   aes(x = cces2018$CO2)) + 
-  geom_bar(mapping = NULL, fill = "mediumseagreen", 
+  geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
            color = "mediumseagreen") + 
   labs(title = "Should the EPA be given the power to regulate CO2 emissions?", 
        x = "Support                                                      Oppose", 
