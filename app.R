@@ -23,8 +23,8 @@ ui <- fluidPage(
   plotOutput(outputId = "figure1")
 )
 server <- function(input, output) {
+  input = NULL 
   output$figure1 <- renderPlot({figure1
-    
   })
 }
 shinyApp(ui = ui, server = server)

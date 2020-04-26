@@ -34,6 +34,7 @@ rsconnect::setAccountInfo(name='kieraobrien',
 
 cces2018 <- read_excel("cces2018.xlsx")
 
+cces2018 <- na.omit(cces2018)
 View(cces2018)
 ```
 
