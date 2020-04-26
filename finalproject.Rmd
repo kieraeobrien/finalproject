@@ -46,12 +46,35 @@ figure1 <- ggplot(cces2018,
   geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
            color = "mediumseagreen") + 
   labs(title = "Should the EPA be given the power to regulate CO2 emissions?", 
-       x = "Support                                                      Oppose", 
+       x = "Support                                                                Oppose", 
        y = "Count", 
        caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
   scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
   theme(plot.title = element_text(face = "bold", 
                                   size = 17))
+```
+
+```{r}
+
+action <- cces2018 %>%
+select(CO2, MPG, Reneww, JobsVEnvir, Paris) %>%
+  mutate(category = case_when(
+    (cces2018$CO2) == 1 ~ "1",
+    (cces2018$MPG) == 1 ~ "2",
+    (cces2018$Reneww) == 1 ~ "3",
+    (cces2018$JobsVEnvir) == 1 ~ "4",
+    (cces2018$Paris) == 1 ~ "5"))
+
+# plotting density and filling by cased categories
+# assigning themes and correcting labels
+
+cces2018 %>%  
+  ggplot(aes(action, fill = action$category)) +
+  geom_density(alpha = .4, colour = "black", size = 0.73) +
+  labs(fill = "Number of Kids", title = "Hours Wife Works A Week", x = "Hours Worked", y = "Density", caption = "Craig Olson (1998)") +
+  scale_fill_viridis_d() +
+  theme_classic()
+
 ```
 
 ``` {r shiny, include = F}

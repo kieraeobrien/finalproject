@@ -28,7 +28,7 @@ figure1 <- ggplot(cces2018,
   geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
            color = "mediumseagreen") + 
   labs(title = "Should the EPA be given the power to regulate CO2 emissions?", 
-       x = "Support                                                      Oppose", 
+       x = "Support                                                                 Oppose", 
        y = "Count", 
        caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
   scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
