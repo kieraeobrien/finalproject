@@ -39,7 +39,17 @@ View(cces2018)
 
 ``` {r plot, echo = F, warning = F}
 
-figure1 <- ggplot(cces2018, aes(x = cces2018$CO2) + geom_bar(mapping = NULL, fill = "mediumseagreen", color = "mediumseagreen") + labs(title = "Should the EPA be given the power to regulate CO2 emissions?", x = "Support                                                      Oppose", y = "Count", caption = "Based on data from the Cooperative Congressional Election Study, 2018") + scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + theme(plot.title = element_text(face = "bold", size = 17))
+figure1 <- ggplot(cces2018, 
+                  aes(x = cces2018$CO2)) + 
+  geom_bar(mapping = NULL, fill = "mediumseagreen", 
+           color = "mediumseagreen") + 
+  labs(title = "Should the EPA be given the power to regulate CO2 emissions?", 
+       x = "Support                                                      Oppose", 
+       y = "Count", 
+       caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
+  scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
 ```
 
 ``` {r shiny, include = F}
