@@ -8,7 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-library(haven)
 library(tidyverse)
 library(janitor)
 library(ggplot2)
@@ -30,7 +29,7 @@ rsconnect::setAccountInfo(name='kieraobrien',
 # It is on the CCES website. I used it to help select useful questions.
 # https://cces.gov.harvard.edu/, under each year. 
 
-# reading in Stata file of CCES 2018 data
+# reading in excel file of CCES 2018 data
 
 cces2018 <- read_excel("cces2018.xlsx")
 
@@ -39,6 +38,8 @@ View(cces2018)
 ```
 
 ``` {r plot, echo = F, warning = F}
+
+# creating ggplot for EPA CO2 regulation
 
 figure1 <- ggplot(cces2018, 
                   aes(x = cces2018$CO2)) + 

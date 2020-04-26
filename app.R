@@ -1,12 +1,8 @@
-library(haven)
 library(tidyverse)
-library(janitor)
 library(ggplot2)
-library(dplyr)
 library(vctrs)
 library(rsconnect)
 library(shiny)
-library(haven)
 library(readxl)
 
 rsconnect::setAccountInfo(name='kieraobrien',
@@ -16,6 +12,29 @@ rsconnect::setAccountInfo(name='kieraobrien',
 # Note: each of these datasets comes with a guide for interpretation.
 # It is on the CCES website. I used it to help select useful questions.
 # https://cces.gov.harvard.edu/, under each year. 
+
+# reading in excel file of CCES 2018 data
+
+cces2018 <- read_excel("cces2018.xlsx")
+
+# removing NA values and viewing 
+
+cces2018 <- na.omit(cces2018)
+
+# creating ggplot for EPA CO2 regulation
+
+figure1 <- ggplot(cces2018, 
+                  aes(x = cces2018$CO2)) + 
+  geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
+           color = "mediumseagreen") + 
+  labs(title = "Should the EPA be given the power to regulate CO2 emissions?", 
+       x = "Support                                                      Oppose", 
+       y = "Count", 
+       caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
+  scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+
 
 # creating shiny app
 
