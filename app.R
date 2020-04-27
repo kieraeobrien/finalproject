@@ -31,9 +31,9 @@ action <- cces2018 %>%
   mutate(category = case_when(
     (cces2018$CO2) == 1 ~ "EPA Regulation of CO2",
     (cces2018$MPG) == 1 ~ "MPG Standards",
-    (cces2018$Reneww) == 1 ~ "Renewable Portfolios",
+    (cces2018$Reneww) == 2 ~ "Renewable Portfolios",
     (cces2018$JobsVEnvir) == 1 ~ "Environment > Jobs",
-    (cces2018$Paris) == 1 ~ "Paris Agreement"))
+    (cces2018$Paris) == 2 ~ "Paris Agreement"))
 
 # plotting density and filling by cased categories
 # assigning themes and correcting labels
@@ -41,7 +41,7 @@ action <- cces2018 %>%
 figure2 <- cces2018 %>%  
   ggplot(aes(action$category, fill = action$category)) +
   geom_density(alpha = .4, colour = "black", size = 0.73) +
-  labs(fill = "Climate Action Supported", title = "Support for Different Climate Actions at the Federal Level", x = "Climate Action Supported", y = "Support Relative to Other Actions", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
+  labs(fill = "Climate Action Supported", title = "Support for Federal Climate Actions", x = "Climate Action Supported", y = "Support Relative to Other Actions", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
   scale_x_discrete(labels = NULL) +
   scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
   theme_classic() + 
@@ -52,7 +52,6 @@ figure2 <- cces2018 %>%
 
 ui <- fluidPage(
   theme = shinytheme("cosmo"),
-  navbarPage(tags$b("Climate Policy and Public Opinion")),
 
   titlePanel("Climate Policy and Public Opinion"),
   mainPanel(
@@ -61,27 +60,46 @@ ui <- fluidPage(
       tabPanel("About", 
                titlePanel("About"),
                h3("Background"),
-               p("Text on why I did this"),
-               p("Text on where my data comes from"),
+               p("Climate change has emerged as one of the most pressing political issues of our time. However, federal-level action lags behind popular demand for change."),
+               p("By examining public opinion data from the Cooperative Congressional Election Study, I analyze several common misconceptions regarding American politics and the climate challenge."),
+               p("Rather than trying to identify who or what is to blame for the lag in federal policy-making, I interested in points of common ground or belief, as that is where progress is most likely."),
                h3("About Me"),
-               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I study Government on the Technology Science track with a secondary in History. 
-             You can reach me at kiera_obrien@college.harvard.edu.")),
+               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I study Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikna, Alaska, and am passionate about responsible climate policy-making and conservative politics. 
+                 You can reach me via email at kiera_obrien@college.harvard.edu.")),
  
        tabPanel("Findings",
            titlePanel("Findings"),
            mainPanel(
              plotOutput(outputId = "figure2"),
              br(), br(),
-             p("Description of graph"),
-             br(), br(),
+             h3("Corresponding Questions"),
+             h4("Environment Versus Jobs"),
+             p("The above graph compares the relative support for the five environmental questions asked in the 2018 CCES."),
+             p("The first variable, 'Environment > Jobs', corresponds with affirmative answers to the question: 'Do you support or oppose strengthening the Environmental Protection
+Agency enforcement of the Clean Air Act and Clean Water Act even if it costs US jobs'"),
+             h4("EPA Regulation of CO2"),
+             p("The second varible, 'EPA Regulation of CO2' corresponds with affirmative answers to the question: 'Do you support or oppose giving the Environmental Protection Agency
+power to regulate Carbon Dioxide emissions?'"),
+            p("This question is very important broadly due to the fact that regulation of CO2 emissions is a prerequisite to any federal-level emissions-reductions plan, 
+including cap-and-trade or a price on carbon."),
+            h4("Fuel Efficiency Standards"),
+            p("The third variable, 'MPG Standards', corresponds with negative responses to the question: 'Do you support or oppose lowering the required fuel efficiency for the average automobile from 35 mpg to 25 mpg?'"),
+            h4("Paris Agreement"),
+            p("The fourth variable, 'Paris Agreement', corresponds with negative responses to the question: 'Do you support or oppose withdraw the United States from the Paris
+Climate Agreement?'"),
+            h4("Renewable Portfolios"), 
+            p("The fifth variable, 'Paris Agreement', corresponds with affirmative answers to the question: 'Do you support or oppose requiring that each state use a minimum
+amount of renewable fuels (wind, solar, and hydroelectric) in the generation of electricity even if electricity prices increase?'"),
+            h4("No federal action"),
+            p("NA responses represent the relative proportion of respondents that did not choose the environmentally favorable answer to any of these five questions."),
+            br(), br(),
              
   )),
   
-  tabPanel("Analysis",
-    titlePanel("The Data"),
+  tabPanel("Data",
+    titlePanel("The Cooperative Congressional Election Study (CCES)"),
     mainPanel(
-      h3("CCES"),
-      p("Description of data'")
+      p("The CCES is a 50,000+ person stratified sample survey administered by YouGov.")
   
   
 )))))
