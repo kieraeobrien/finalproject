@@ -75,7 +75,6 @@ figure2 <- cces2018 %>%
   labs(fill = "Climate Action Supported", title = "Support for Different Climate Actions at the Federal Level", x = "Climate Action Supported", y = "Support Relative to Other Actions", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
   scale_x_discrete(labels = NULL) +
   scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
-  transition_manual(action$category) +
   theme_classic() + 
   theme(plot.title = element_text(face = "bold", 
                                   size = 17))
