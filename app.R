@@ -4,6 +4,9 @@ library(vctrs)
 library(rsconnect)
 library(shiny)
 library(readxl)
+library(shinydashboard)
+library(shinyWidgets)
+library(shinythemes)
 
 rsconnect::setAccountInfo(name='kieraobrien',
                           token='D36A6A60ACFFD2CA1CB5F3ED10FE5C4C',
@@ -48,11 +51,46 @@ figure2 <- cces2018 %>%
 # creating shiny app
 
 ui <- fluidPage(
-  plotOutput(outputId = "figure2")
-)
+  theme = shinytheme("cosmo"),
+  navbarPage(tags$b("Climate Policy and Public Opinion")),
+
+  titlePanel("Climate Policy and Public Opinion"),
+  mainPanel(
+    tabsetPanel(
+      
+      tabPanel("About", 
+               titlePanel("About"),
+               h3("Background"),
+               p("Text on why I did this"),
+               p("Text on where my data comes from"),
+               h3("About Me"),
+               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I study Government on the Technology Science track with a secondary in History. 
+             You can reach me at kiera_obrien@college.harvard.edu.")),
+ 
+       tabPanel("Findings",
+           titlePanel("Findings"),
+           mainPanel(
+             plotOutput(outputId = "figure2"),
+             br(), br(),
+             p("Description of graph"),
+             br(), br(),
+             
+  )),
+  
+  tabPanel("Analysis",
+    titlePanel("The Data"),
+    mainPanel(
+      h3("CCES"),
+      p("Description of data'")
+  
+  
+)))))
+  
+  
+
 server <- function(input, output) {
-  input = NULL 
   output$figure2 <- renderPlot({figure2
+    
   })
 }
 shinyApp(ui = ui, server = server)

@@ -18,6 +18,8 @@ library(shiny)
 library(haven)
 library(readxl)
 library(gganimate)
+library(shinydashboard)
+library(shinyWidgets)
 
 rsconnect::setAccountInfo(name='kieraobrien',
 			  token='D36A6A60ACFFD2CA1CB5F3ED10FE5C4C',
