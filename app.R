@@ -28,8 +28,8 @@ cces2018 <- na.omit(cces2018)
 
 figure1 <- ggplot(cces2018, 
                   aes(x = cces2018$CO2)) + 
-  geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
-           color = "mediumseagreen") + 
+  geom_bar(mapping = NULL, stat = "count", fill = "Indianred", 
+           color = "Indianred") + 
   labs(title = "EPA Regulation of CO2?", 
        x = "Support                  Oppose", 
        y = "Count", 
