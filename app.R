@@ -78,8 +78,8 @@ ui <- fluidPage(
                p("By examining public opinion data from the Cooperative Congressional Election Study, I analyze several common misconceptions regarding American politics and the climate challenge."),
                p("Rather than trying to identify who or what is to blame for the lag in federal policy-making, I'm interested in points of common ground or belief, as that is where progress is more likely to be made."),
                h3("About Me"),
-               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I studied Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikna, Alaska, and am passionate about responsible climate policy-making and conservative politics. 
-                 You can reach me via email at kiera_obrien@college.harvard.edu.")),
+               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I studied Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikan, Alaska, and am passionate about responsible climate policy-making and conservative politics. 
+                 You can reach me via email at:", a("kiera_obrien@college.harvard.edu.", href = "mailto: kiera_obrien@college.harvard.edu"))),
  
        tabPanel("Findings",
            titlePanel("Findings"),
@@ -121,7 +121,7 @@ amount of renewable fuels (wind, solar, and hydroelectric) in the generation of 
   tabPanel("Data",
     titlePanel("The Cooperative Congressional Election Study (CCES)"),
     mainPanel(
-      p("The CCES is a 50,000+ person stratified sample survey administered by YouGov.")
+      p("The CCES is a 50,000+ person stratified sample survey administered by YouGov. It can be accessed", a("here", href = "https://cces.gov.harvard.edu/"))
   
   
 )))))
