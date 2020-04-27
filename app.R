@@ -24,6 +24,20 @@ cces2018 <- read_excel("cces2018.xlsx")
 
 cces2018 <- na.omit(cces2018)
 
+# creating ggplot for EPA CO2 regulation
+
+figure1 <- ggplot(cces2018, 
+                  aes(x = cces2018$CO2)) + 
+  geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
+           color = "mediumseagreen") + 
+  labs(title = "EPA Regulation of CO2?", 
+       x = "Support                  Oppose", 
+       y = "Count", 
+       caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
+  scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+
 # creating ggplot comparing favorability of different climate plans
 
 action <- cces2018 %>%
@@ -62,9 +76,9 @@ ui <- fluidPage(
                h3("Background"),
                p("Climate change has emerged as one of the most pressing political issues of our time. However, federal-level action lags behind popular demand for change."),
                p("By examining public opinion data from the Cooperative Congressional Election Study, I analyze several common misconceptions regarding American politics and the climate challenge."),
-               p("Rather than trying to identify who or what is to blame for the lag in federal policy-making, I interested in points of common ground or belief, as that is where progress is most likely."),
+               p("Rather than trying to identify who or what is to blame for the lag in federal policy-making, I'm interested in points of common ground or belief, as that is where progress is more likely to be made."),
                h3("About Me"),
-               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I study Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikna, Alaska, and am passionate about responsible climate policy-making and conservative politics. 
+               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I studied Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikna, Alaska, and am passionate about responsible climate policy-making and conservative politics. 
                  You can reach me via email at kiera_obrien@college.harvard.edu.")),
  
        tabPanel("Findings",
@@ -96,6 +110,14 @@ amount of renewable fuels (wind, solar, and hydroelectric) in the generation of 
              
   )),
   
+  tabPanel("Partisanship",
+           titlePanel("Republican Views on the Most Broadly-Favored Federal Measure"),
+           mainPanel(plotOutput(outputId = "figure1"),
+                     br(), br(),
+            h3("Takeaways"),
+                     p("Selecting only Republican respondants, there is still a strong majority that favors the most broadly-favored climate measure, allowing the EPA the power to regulate CO2 emissions.")
+           )),
+  
   tabPanel("Data",
     titlePanel("The Cooperative Congressional Election Study (CCES)"),
     mainPanel(
@@ -110,5 +132,6 @@ server <- function(input, output) {
   output$figure2 <- renderPlot({figure2
     
   })
+  output$figure1 <- renderPlot({figure1})
 }
 shinyApp(ui = ui, server = server)
