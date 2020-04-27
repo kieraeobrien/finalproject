@@ -17,6 +17,7 @@ library(rsconnect)
 library(shiny)
 library(haven)
 library(readxl)
+library(gganimate)
 
 rsconnect::setAccountInfo(name='kieraobrien',
 			  token='D36A6A60ACFFD2CA1CB5F3ED10FE5C4C',
@@ -54,36 +55,40 @@ figure1 <- ggplot(cces2018,
                                   size = 17))
 ```
 
-```{r}
+```{r compare, echo = F}
 
 action <- cces2018 %>%
-select(CO2, MPG, Reneww, JobsVEnvir, Paris) %>%
+  select(CO2, MPG, Reneww, JobsVEnvir, Paris) %>%
   mutate(category = case_when(
-    (cces2018$CO2) == 1 ~ "1",
-    (cces2018$MPG) == 1 ~ "2",
-    (cces2018$Reneww) == 1 ~ "3",
-    (cces2018$JobsVEnvir) == 1 ~ "4",
-    (cces2018$Paris) == 1 ~ "5"))
+    (cces2018$CO2) == 1 ~ "EPA Regulation of CO2",
+    (cces2018$MPG) == 1 ~ "MPG Standards",
+    (cces2018$Reneww) == 1 ~ "Renewable Portfolios",
+    (cces2018$JobsVEnvir) == 1 ~ "Environment > Jobs",
+    (cces2018$Paris) == 1 ~ "Paris Agreement"))
 
 # plotting density and filling by cased categories
 # assigning themes and correcting labels
 
-cces2018 %>%  
-  ggplot(aes(action, fill = action$category)) +
+figure2 <- cces2018 %>%  
+  ggplot(aes(action$category, fill = action$category)) +
   geom_density(alpha = .4, colour = "black", size = 0.73) +
-  labs(fill = "Number of Kids", title = "Hours Wife Works A Week", x = "Hours Worked", y = "Density", caption = "Craig Olson (1998)") +
-  scale_fill_viridis_d() +
-  theme_classic()
-
+  labs(fill = "Climate Action Supported", title = "Support for Different Climate Actions at the Federal Level", x = "Climate Action Supported", y = "Support Relative to Other Actions", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
+  scale_x_discrete(labels = NULL) +
+  scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
+  transition_manual(action$category) +
+  theme_classic() + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+figure2
 ```
 
 ``` {r shiny, include = F}
 
 ui <- fluidPage(
-  plotOutput(outputId = "figure1")
+  plotOutput(outputId = "figure2")
 )
 server <- function(input, output) {
-  output$figure1 <- renderPlot({figure1
+  output$figure2 <- renderPlot({figure2
     
   })
 }

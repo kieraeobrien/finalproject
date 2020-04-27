@@ -21,29 +21,38 @@ cces2018 <- read_excel("cces2018.xlsx")
 
 cces2018 <- na.omit(cces2018)
 
-# creating ggplot for EPA CO2 regulation
+# creating ggplot comparing favorability of different climate plans
 
-figure1 <- ggplot(cces2018, 
-                  aes(x = cces2018$CO2)) + 
-  geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
-           color = "mediumseagreen") + 
-  labs(title = "Should the EPA be given the power to regulate CO2 emissions?", 
-       x = "Support                                                                 Oppose", 
-       y = "Count", 
-       caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
-  scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
+action <- cces2018 %>%
+  select(CO2, MPG, Reneww, JobsVEnvir, Paris) %>%
+  mutate(category = case_when(
+    (cces2018$CO2) == 1 ~ "EPA Regulation of CO2",
+    (cces2018$MPG) == 1 ~ "MPG Standards",
+    (cces2018$Reneww) == 1 ~ "Renewable Portfolios",
+    (cces2018$JobsVEnvir) == 1 ~ "Environment > Jobs",
+    (cces2018$Paris) == 1 ~ "Paris Agreement"))
+
+# plotting density and filling by cased categories
+# assigning themes and correcting labels
+
+figure2 <- cces2018 %>%  
+  ggplot(aes(action$category, fill = action$category)) +
+  geom_density(alpha = .4, colour = "black", size = 0.73) +
+  labs(fill = "Climate Action Supported", title = "Support for Different Climate Actions at the Federal Level", x = "Climate Action Supported", y = "Support Relative to Other Actions", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
+  scale_x_discrete(labels = NULL) +
+  scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
+  theme_classic() + 
   theme(plot.title = element_text(face = "bold", 
                                   size = 17))
-
 
 # creating shiny app
 
 ui <- fluidPage(
-  plotOutput(outputId = "figure1")
+  plotOutput(outputId = "figure2")
 )
 server <- function(input, output) {
   input = NULL 
-  output$figure1 <- renderPlot({figure1
+  output$figure2 <- renderPlot({figure2
   })
 }
 shinyApp(ui = ui, server = server)
