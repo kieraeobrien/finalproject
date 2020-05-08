@@ -24,13 +24,51 @@ cces2018 <- read_excel("cces2018.xlsx")
 
 cces2018 <- na.omit(cces2018)
 
+# creating Republican only variables
+
+rsonly <- cces2018 %>%
+  mutate(category = case_when(
+    (cces2018$pid7) == 5 ~ "Lean Republican",
+    (cces2018$pid7) == 6 ~ "Not Very Strong Republican",
+    (cces2018$pid7) == 7 ~ "Strong Republican",
+  ))
+
+rsonly <- na.omit(rsonly)
+
+# breaking down by age group 
+
+yrsonly <- rsonly %>%
+  mutate(age = (2020 - rsonly$birthyr)) 
+  
+yrsonly <- yrsonly %>%
+  filter(age <= 30)
+
+oldrsonly <- rsonly %>%
+  mutate(age = (2020 - rsonly$birthyr)) 
+
+oldrsonly <- oldrsonly %>%
+  filter(age > 30)
+
 # creating ggplot for EPA CO2 regulation
 
-figure1 <- ggplot(cces2018, 
-                  aes(x = cces2018$CO2)) + 
+figure1 <- ggplot(oldrsonly, 
+                  aes(x = oldrsonly$CO2)) + 
   geom_bar(mapping = NULL, stat = "count", fill = "lightsteelblue", 
            color = "lightsteelblue") + 
-  labs(title = "Should the EPA Regulate CO2?", 
+  labs(title = "Older Republicans: Should the EPA Regulate CO2?", 
+       x = "Support                  Oppose", 
+       y = "Count", 
+       caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
+  scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+
+# creating ggplot for young Republicans only 
+
+figure3 <- ggplot(yrsonly, aes(x = yrsonly$CO2)) + 
+  geom_bar(mapping = NULL, stat = "count", fill = "lightsteelblue", 
+           color = "lightsteelblue") + 
+  labs(title = "Young Republicans: Should the EPA Regulate CO2?", 
        x = "Support                  Oppose", 
        y = "Count", 
        caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
@@ -61,6 +99,28 @@ figure2 <- cces2018 %>%
   theme_classic() + 
   theme(plot.title = element_text(face = "bold", 
                                   size = 17))
+
+# creating all policy ggplot for just young Rs
+
+yraction <- yrsonly %>%
+  select(CO2, MPG, Reneww, JobsVEnvir, Paris) %>%
+  mutate(category = case_when(
+    (yrsonly$CO2) == 1 ~ "EPA Regulation of CO2",
+    (yrsonly$MPG) == 1 ~ "MPG Standards",
+    (yrsonly$Reneww) == 1 ~ "Renewable Portfolios",
+    (yrsonly$JobsVEnvir) == 1 ~ "Environment > Jobs",
+    (yrsonly$Paris) == 1 ~ "Paris Agreement"))
+
+figure4 <- yrsonly %>%  
+  ggplot(aes(yraction$category, fill = yraction$category)) +
+  geom_bar(alpha = .4, colour = "black", size = 0.73) +
+  labs(fill = "Climate Action Supported", title = "Young Republican Climate Action Support", x = "Climate Action Policy Supported", y = "Young Republicans Supporting (Count)", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
+  scale_x_discrete(labels = NULL) +
+  scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
+  theme_classic() + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+
 
 # creating shiny app
 
@@ -116,10 +176,21 @@ amount of renewable fuels (wind, solar, and hydroelectric) in the generation of 
   
   tabPanel("Partisanship",
            titlePanel("Republican Views on the Most Broadly-Favored Federal Measure"),
+           h3("The Anticipated Response"),
+           p("When asked whether or not the EPA should be allowed to regulate carbon emissions, the first graph shows the expected Republican position. However, this graph includes only Republican respondents over the age of 30, as climate change has emerged as a generational wedge issue."),
+           br(),
            mainPanel(plotOutput(outputId = "figure1"),
-                     br(), 
-            h3("Takeaways"),
-                     p("Selecting only Republican respondants, there is still a strong majority that favors the most broadly-favored climate measure, allowing the EPA the power to regulate CO2 emissions.")
+                     br(),
+          h3("The Next Generation"),
+          p("Republicans under 30 are significantly more open to federal-level climate action. This graph shows the majority of Republicans under the age of 30 would like the EPA to regulate carbon emissions. This is a major divergence from the party line."),
+          br(),
+          plotOutput(outputId = "figure3"),  
+          br(),
+          h3("Takeaways"),
+          p("While the older generations of Republicans hold oppositional views to the most popular federal climate policies, the next generation of Republicans do not take the same stance. In fact, the Young Republican subsection of the electorate holds fairly similar positions as the entire electorate when it comes to climate policy at the federal level."),
+          p("As shown here, Republicans under 30 are relatively less favorable on the environment versus jobs question and renewable portfolio requirements, but are not openly hostile toward EPA regulation of CO2 in the same way their older counterparts are."), 
+          br(),
+           plotOutput(outputId = "figure4")
            )),
   
   tabPanel("Data",
@@ -134,9 +205,10 @@ amount of renewable fuels (wind, solar, and hydroelectric) in the generation of 
   
 
 server <- function(input, output) {
-  output$figure2 <- renderPlot({figure2
-    
-  })
+  output$figure2 <- renderPlot({figure2})
   output$figure1 <- renderPlot({figure1})
-}
+  output$figure3 <- renderPlot({figure3})
+  output$figure4 <- renderPlot({figure4})
+  
+  }
 shinyApp(ui = ui, server = server)

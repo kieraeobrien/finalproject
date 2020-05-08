@@ -52,17 +52,25 @@ rsonly <- cces2018 %>%
 rsonly <- na.omit(rsonly)
 
 yrsonly <- rsonly %>%
-  mutate(age = (2020 - rsonly$birthyr))
+  mutate(age = (2020 - rsonly$birthyr)) %>%
 
+yrsonly <- yrsonly %>%
+  filter(age <= 30)
 
+oldrsonly <- rsonly %>%
+  mutate(age = (2020 - rsonly$birthyr)) 
+
+oldrsonly <- oldrsonly %>%
+  filter(age > 30)
+  
 ```
 
 ``` {r plot, echo = F, warning = F}
 
 # creating ggplot for EPA CO2 regulation
 
-figure1 <- ggplot(rsonly, 
-                  aes(x = rsonly$CO2)) + 
+figure1 <- ggplot(oldrsonly, 
+                  aes(x = oldrsonly$CO2)) + 
   geom_bar(mapping = NULL, stat = "count", fill = "lightsteelblue", 
            color = "lightsteelblue") + 
   labs(title = "Should the EPA Regulate CO2?", 
@@ -73,6 +81,21 @@ figure1 <- ggplot(rsonly,
   theme(plot.title = element_text(face = "bold", 
                                   size = 17))
 figure1
+```
+
+```{r}
+
+figure3 <- ggplot(yrsonly, aes(x = yrsonly$CO2)) + 
+  geom_bar(mapping = NULL, stat = "count", fill = "lightsteelblue", 
+           color = "lightsteelblue") + 
+  labs(title = "Should the EPA Regulate CO2?", 
+       x = "Support                  Oppose", 
+       y = "Count", 
+       caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
+  scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+figure3
 ```
 
 ```{r compare, echo = F}
@@ -100,6 +123,52 @@ figure2 <- cces2018 %>%
   theme(plot.title = element_text(face = "bold", 
                                   size = 17))
 figure2
+```
+
+```{r}
+
+yraction <- yrsonly %>%
+  select(CO2, MPG, Reneww, JobsVEnvir, Paris) %>%
+  mutate(category = case_when(
+    (yrsonly$CO2) == 1 ~ "EPA Regulation of CO2",
+    (yrsonly$MPG) == 1 ~ "MPG Standards",
+    (yrsonly$Reneww) == 1 ~ "Renewable Portfolios",
+    (yrsonly$JobsVEnvir) == 1 ~ "Environment > Jobs",
+    (yrsonly$Paris) == 1 ~ "Paris Agreement"))
+
+figure4 <- yrsonly %>%  
+  ggplot(aes(yraction$category, fill = yraction$category)) +
+  geom_bar(alpha = .4, colour = "black", size = 0.73) +
+  labs(fill = "Climate Action Supported", title = "Support for Federal Climate Actions", x = "Climate Action Policy Supported", y = "Support for Action (Count)", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
+  scale_x_discrete(labels = NULL) +
+  scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
+  theme_classic() + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+
+figure4
+```
+```{r}
+oldraction <- oldrsonly %>%
+  select(CO2, MPG, Reneww, JobsVEnvir, Paris) %>%
+  mutate(cat = case_when(
+    (oldrsonly$CO2) == 1 ~ "EPA Regulation of CO2",
+    (oldrsonly$MPG) == 1 ~ "MPG Standards",
+    (oldrsonly$Reneww) == 1 ~ "Renewable Portfolios",
+    (oldrsonly$JobsVEnvir) == 1 ~ "Environment > Jobs",
+    (oldrsonly$Paris) == 1 ~ "Paris Agreement"))
+
+figure5 <- oldrsonly %>%  
+  ggplot(aes(oldraction$cat, fill = oldraction$cat)) +
+  geom_bar(alpha = .4, colour = "black", size = 0.73) +
+  labs(fill = "Climate Action Supported", title = "Support for Federal Climate Actions", x = "Climate Action Policy Supported", y = "Support for Action (Count)", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
+  scale_x_discrete(labels = NULL) +
+  scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
+  theme_classic() + 
+  theme(plot.title = element_text(face = "bold", 
+                                  size = 17))
+
+figure5
 ```
 
 ``` {r shiny, include = F}
