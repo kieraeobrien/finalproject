@@ -138,7 +138,7 @@ ui <- fluidPage(
                p("By examining public opinion data from the Cooperative Congressional Election Study, I analyze a common misconception regarding American politics and the climate challenge: that Republicans are opposed to action of any sort."),
                p("Rather than trying to identify who or what is to blame for the lag in federal policy-making, I'm interested in points of common ground or belief, as that is where progress is more likely to be made."),
                h3("About Me"),
-               p("My name is Kiera O'Brien and I'm a senior at Harvard College. I studied Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikan, Alaska, and am passionate about responsible climate policy-making and conservative politics. 
+               p("My name is Kiera O'Brien, and I'm a senior at Harvard College. I studied Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikan, Alaska and am passionate about responsible climate policy-making and conservative politics. 
                  In the fall, I'll be starting my graduate studies in Columbia University's Department of Earth & Environmental Sciences.
                  You can reach me via email at:", a("kiera_obrien@college.harvard.edu.", href = "mailto: kiera_obrien@college.harvard.edu"))),
  
@@ -148,7 +148,7 @@ ui <- fluidPage(
              plotOutput(outputId = "figure2"),
              br(), 
              h3("Summary"),
-             p("The chart above compares levels of support for Federal level climate actions, as found in the 2018 Cooperative Congressional Election Study. Five policy actions were asked about, and respondants that did not answer affirmatively to any of the questions are shown as 'NA.'"),
+             p("The chart above compares levels of support for Federal level climate actions, as found in the 2018 Cooperative Congressional Election Study. Five policy actions were asked about, and respondents that did not answer affirmatively to any of the questions are shown as 'NA.'"),
              p("The corresponding question language is shown and clarified below. Clearly, EPA regulation of CO2 is far and away the most popular policy choice. A bar graph was chosen to clarify popularity relative to other actions polled."),
              h3("Corresponding Questions"),
              h4("Environment Versus Jobs"),
