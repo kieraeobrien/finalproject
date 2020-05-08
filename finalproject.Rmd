@@ -40,21 +40,39 @@ cces2018 <- na.omit(cces2018)
 View(cces2018)
 ```
 
+```{r Republicans}
+
+rsonly <- cces2018 %>%
+  mutate(category = case_when(
+    (cces2018$pid7) == 5 ~ "Lean Republican",
+    (cces2018$pid7) == 6 ~ "Not Very Strong Republican",
+    (cces2018$pid7) == 7 ~ "Strong Republican",
+    ))
+
+rsonly <- na.omit(rsonly)
+
+yrsonly <- rsonly %>%
+  mutate(age = (2020 - rsonly$birthyr))
+
+
+```
+
 ``` {r plot, echo = F, warning = F}
 
 # creating ggplot for EPA CO2 regulation
 
-figure1 <- ggplot(cces2018, 
-                  aes(x = cces2018$CO2)) + 
-  geom_bar(mapping = NULL, stat = "count", fill = "mediumseagreen", 
-           color = "mediumseagreen") + 
-  labs(title = "Should the EPA be given the power to regulate CO2 emissions?", 
-       x = "Support                                                                Oppose", 
+figure1 <- ggplot(rsonly, 
+                  aes(x = rsonly$CO2)) + 
+  geom_bar(mapping = NULL, stat = "count", fill = "lightsteelblue", 
+           color = "lightsteelblue") + 
+  labs(title = "Should the EPA Regulate CO2?", 
+       x = "Support                  Oppose", 
        y = "Count", 
        caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
   scale_x_discrete(labels=c("1" = "Support", "2" = "Oppose")) + 
   theme(plot.title = element_text(face = "bold", 
                                   size = 17))
+figure1
 ```
 
 ```{r compare, echo = F}

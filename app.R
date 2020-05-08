@@ -28,9 +28,9 @@ cces2018 <- na.omit(cces2018)
 
 figure1 <- ggplot(cces2018, 
                   aes(x = cces2018$CO2)) + 
-  geom_bar(mapping = NULL, stat = "count", fill = "Indianred", 
-           color = "Indianred") + 
-  labs(title = "EPA Regulation of CO2?", 
+  geom_bar(mapping = NULL, stat = "count", fill = "lightsteelblue", 
+           color = "lightsteelblue") + 
+  labs(title = "Should the EPA Regulate CO2?", 
        x = "Support                  Oppose", 
        y = "Count", 
        caption = "Based on data from the Cooperative Congressional Election Study, 2018") + 
@@ -54,8 +54,8 @@ action <- cces2018 %>%
 
 figure2 <- cces2018 %>%  
   ggplot(aes(action$category, fill = action$category)) +
-  geom_density(alpha = .4, colour = "black", size = 0.73) +
-  labs(fill = "Climate Action Supported", title = "Support for Federal Climate Actions", x = "Climate Action Supported", y = "Support Relative to Other Actions", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
+  geom_bar(alpha = .4, colour = "black", size = 0.73) +
+  labs(fill = "Climate Action Supported", title = "Support for Federal Climate Actions", x = "Climate Action Policy Supported", y = "Support for Action (Count)", caption = "Data from the Cooperative Congressional Election Study (2018)") + 
   scale_x_discrete(labels = NULL) +
   scale_fill_brewer(palette = 3, direction = -1, na.value = "grey50") + 
   theme_classic() + 
@@ -67,7 +67,7 @@ figure2 <- cces2018 %>%
 ui <- fluidPage(
   theme = shinytheme("cosmo"),
 
-  titlePanel("Climate Policy and Public Opinion"),
+  titlePanel("Climate Policy & Public Opinion"),
   mainPanel(
     tabsetPanel(
       
@@ -75,17 +75,21 @@ ui <- fluidPage(
                titlePanel("About"),
                h3("Background"),
                p("Climate change has emerged as one of the most pressing political issues of our time. However, federal-level action lags behind popular demand for change."),
-               p("By examining public opinion data from the Cooperative Congressional Election Study, I analyze several common misconceptions regarding American politics and the climate challenge."),
+               p("By examining public opinion data from the Cooperative Congressional Election Study, I analyze a common misconception regarding American politics and the climate challenge: that Republicans are opposed to action of any sort."),
                p("Rather than trying to identify who or what is to blame for the lag in federal policy-making, I'm interested in points of common ground or belief, as that is where progress is more likely to be made."),
                h3("About Me"),
                p("My name is Kiera O'Brien and I'm a senior at Harvard College. I studied Government on the Technology Science track with a secondary in History. I was born and raised in Ketchikan, Alaska, and am passionate about responsible climate policy-making and conservative politics. 
+                 In the fall, I'll be starting my graduate studies in Columbia University's Department of Earth & Environmental Sciences.
                  You can reach me via email at:", a("kiera_obrien@college.harvard.edu.", href = "mailto: kiera_obrien@college.harvard.edu"))),
  
        tabPanel("Findings",
            titlePanel("Findings"),
            mainPanel(
              plotOutput(outputId = "figure2"),
-             br(), br(),
+             br(), 
+             h3("Summary"),
+             p("The chart above compares levels of support for Federal level climate actions, as found in the 2018 Cooperative Congressional Election Study. Five policy actions were asked about, and respondants that did not answer affirmatively to any of the questions are shown as 'NA.'"),
+             p("The corresponding question language is shown and clarified below. Clearly, EPA regulation of CO2 is far and away the most popular policy choice. A bar graph was chosen to clarify popularity relative to other actions polled."),
              h3("Corresponding Questions"),
              h4("Environment Versus Jobs"),
              p("The above graph compares the relative support for the five environmental questions asked in the 2018 CCES."),
@@ -113,7 +117,7 @@ amount of renewable fuels (wind, solar, and hydroelectric) in the generation of 
   tabPanel("Partisanship",
            titlePanel("Republican Views on the Most Broadly-Favored Federal Measure"),
            mainPanel(plotOutput(outputId = "figure1"),
-                     br(), br(),
+                     br(), 
             h3("Takeaways"),
                      p("Selecting only Republican respondants, there is still a strong majority that favors the most broadly-favored climate measure, allowing the EPA the power to regulate CO2 emissions.")
            )),
@@ -121,7 +125,8 @@ amount of renewable fuels (wind, solar, and hydroelectric) in the generation of 
   tabPanel("Data",
     titlePanel("The Cooperative Congressional Election Study (CCES)"),
     mainPanel(
-      p("The CCES is a 50,000+ person stratified sample survey administered by YouGov. It can be accessed", a("here", href = "https://cces.gov.harvard.edu/"))
+      p("The CCES is a 50,000+ person national stratified sample survey administered by YouGov. Half of the content is 'common content,' consisting of questions asked to all respondents. The data used in my project comes from the 2018 common content questionnaire, looking at full-sample answers to questions on environmental policymaking as well as how partisanship impacts these opinions."),
+        p("The data and codebook can be accessed", a("here.", href = "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910/DVN/ZSBZ7K"))
   
   
 )))))
